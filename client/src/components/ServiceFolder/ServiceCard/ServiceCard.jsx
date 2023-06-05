@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Link } from "react-router-dom";
 import { BsStarFill, BsFillHeartFill } from "react-icons/bs";
@@ -7,14 +8,16 @@ import { Axios } from "../../../config";
 import requests from "../../../libs/request";
 import { useQuery } from "@tanstack/react-query";
 
-const GigsCards = ({ item }) => {
+const ServiceCard = ({ item }) => {
+ 
   const { isLoading, data } = useQuery({
     queryKey: [item.userId],
     queryFn: () =>
       Axios.get(`${requests.users}/${item.userId}`).then((res) => {
-        return res.data;
+        return res.data.user;
       }),
   });
+
 
   const truckcateString = (str, num) => {
     if (str?.length > num) {
@@ -26,12 +29,12 @@ const GigsCards = ({ item }) => {
 
   return (
     <Link
-      to={`/gigs/${item._id}`}
+      to={`/services/single/${item._id}`}
       className="w-full shadow-box flex items-start flex-col justify-start border group"
     >
       <img
         src={item?.cover}
-        alt={item?.username}
+        alt={item?.shortDesc}
         className="w-full object-cover h-[200px]"
       />
       <div className="w-full bg-white pt-5 flex items-start flex-col gap-3 justify-start">
@@ -48,17 +51,15 @@ const GigsCards = ({ item }) => {
             <>
               <div className="w-8 h-8">
                 <img
-                  src={data?.img || Avatar}
-                  alt={data?.username}
+                  src={data?.avatar || Avatar}
+                  alt={data?.name}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
 
               <div className="flex flex-col items-start justify-start">
-                <h2 className="text-sm font-medium">{data?.username}</h2>
-                <p className="text-sm font-normal text-gray-400">
-                  {data?.isServiceProvider === true ? "Seller" : "Buyer"}
-                </p>
+                <h2 className="text-sm font-medium">{data?.name}</h2>
+               
               </div>
             </>
           )}
@@ -70,6 +71,7 @@ const GigsCards = ({ item }) => {
           <BsStarFill />
           {!isNaN(item.totalStars / item.starNumber) &&
             Math.round(item.totalStars / item.starNumber)}
+            {console.log( Math.round(item.totalStars / item.starNumber),"math")}
         </p>
         <div className="border-t w-full p-5 flex items-center justify-between">
           <span className="text-gray-400 cursor-pointer">
@@ -78,7 +80,7 @@ const GigsCards = ({ item }) => {
           <span className="text-sm font-normal text-gray-500">
             started AT{" "}
             <span className="text-xl font-semibold text-darkColor">
-              ${item.price}
+            ₹{item.price}
             </span>
           </span>
         </div>
@@ -87,4 +89,4 @@ const GigsCards = ({ item }) => {
   );
 };
 
-export default GigsCards;
+export default ServiceCard;

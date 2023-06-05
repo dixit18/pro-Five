@@ -1,13 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { BiHomeAlt, BiChevronDown } from "react-icons/bi";
-import GigsCards from "../../components/GigsContents/GigsCards/GigsCards";
+import GigsCards from "../../components/ServiceFolder/ServiceCard/ServiceCard";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../config";
 import loader from "../../assets/icons/loader.svg";
 import requests from "../../libs/request";
 import { useLocation } from "react-router-dom";
 
-const Gigs = () => {
+const Services = () => {
   const { search } = useLocation();
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState("sales");
@@ -19,11 +19,11 @@ const Gigs = () => {
   };
 
   const { isLoading, error, data, refetch } = useQuery({
-    queryKey: ["gigs"],
+    queryKey: ["services"],
     queryFn: () =>
       Axios.get(
-        `${requests.gigs}${search}&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
-      ).then((res) => res.data),
+        `${requests.services}${search}?&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
+      ).then((res) => res.data.services),
   });
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const Gigs = () => {
 
   const findData =
     data?.length === 0 ? null : data?.find((item) => item?.cat === newCat);
-
+    console.log(findData,"find Data")
   return (
     <main className="py-40">
       <div className="contain">
@@ -49,12 +49,12 @@ const Gigs = () => {
             </span>
             <span>/</span>
             <span className="text-sm">
-              {findData?.shortTitle ? findData?.shortTitle : "Designs"}
+              {findData?.category ? findData?.shortTitle : "Designs"}
             </span>
             <span>/</span>
-            <span className="text-sm">
+            {/* <span className="text-sm">
               {findData?.title ? findData?.title : "Job Title"}
-            </span>
+            </span> */}
           </div>
           <h2 className="text-3xl font-bold">Web Development</h2>
           <p className="text-base font-medium">
@@ -170,4 +170,4 @@ const Gigs = () => {
   );
 };
 
-export default Gigs;
+export default Services;

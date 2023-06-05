@@ -4,9 +4,9 @@ import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
 import Homepage from "./pages/homepage/Homepage";
 import Orders from "./pages/orders/Orders";
-import Gigs from "./pages/gigs/Gigs";
-import Gig from "./pages/gig/Gig";
-import MyGigs from "./pages/myGigs/MyGigs";
+import Services from "./pages/Services/Services";
+import Gig from "./pages/Service/Service";
+import MyGigs from "./pages/myServices/MyServices";
 import Add from "./pages/add/Add";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
-        <Route path="/services" element={<Gigs />} />
+        <Route path="/services" element={<Services />} />
         <Route path="/services/single/:id" element={<Gig />} />
         <Route path="/bookings" element={<Orders />} />
         <Route path="//myservices" element={<MyGigs />} />

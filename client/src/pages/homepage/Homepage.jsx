@@ -20,7 +20,7 @@ const Homepage = () => {
     queryKey: ["services"],
     queryFn: () => Axios.get(requests.services).then((res) => res.data.services),
   });
-console.log("services",data)
+
   return (
     <main>
       <Hero />

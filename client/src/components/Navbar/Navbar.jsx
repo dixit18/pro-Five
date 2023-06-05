@@ -117,7 +117,7 @@ const Navbar = () => {
               to="/"
               className="text-4xl select-none font-black tracking-tighter"
             >
-              <span>ProService</span>
+              <span className="text-primary">ProService</span>
             </Link>
           </div>
           <nav className="flex items-center justify-end gap-7 font-medium text-base">

@@ -1,6 +1,6 @@
 import React from "react";
-import GigsDetails from "../../components/GigsContents/SingleGigContent/GigsDetails";
-import GigsOrder from "../../components/GigsContents/SingleGigContent/GigsOrder";
+import ServiceDetails from "../../components/ServiceFolder/SingleGigContent/ServiceDetails";
+import ServiceOrder from "../../components/ServiceFolder/SingleGigContent/ServiceOrder";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../config";
@@ -10,10 +10,11 @@ import requests from "../../libs/request";
 const Gig = () => {
   const { id } = useParams();
   const { isLoading, error, data } = useQuery({
-    queryKey: ["gig"],
+    queryKey: ["service"],
     queryFn: () =>
-      Axios.get(`${requests.gigs}/single/${id}`).then((res) => res.data),
+      Axios.get(`${requests.services}/single/${id}`).then((res) => res.data.service),
   });
+  
   const userId = data?.userId;
 
   return (
@@ -30,10 +31,10 @@ const Gig = () => {
         ) : (
           <div className="w-full flex items-start justify-between gap-6 flex-col lg:flex-row">
             <div className="w-full lg:w-[70%]">
-              <GigsDetails data={data} id={id} userId={userId} />
+              <ServiceDetails data={data} id={id} userId={userId} />
             </div>
             <div className="w-full lg:w-[30%] sticky top-40">
-              <GigsOrder data={data} id={id} />
+              <ServiceOrder data={data} id={id} />
             </div>
           </div>
         )}

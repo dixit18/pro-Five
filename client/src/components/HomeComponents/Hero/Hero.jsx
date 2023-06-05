@@ -65,45 +65,8 @@ const Hero = () => {
             Home Service <i className="font-light">On Demand</i> <br />{" "}
             
           </h2>
-          <div
-            className={`flex flex-col lg:flex-row items-center w-full gap-5 lg:w-[650px] bg-white h-[50px] rounded-md focus:border focus:border-primary relative mb-20 lg:mb-0`}
-          >
-            <div className="flex items-center justify-start gap-2 w-full h-full">
-              <span
-                className={`text-active pl-3`
-                //  ${
-                //   errors.input && touched.input
-                //     ? " placeholder:text-red-500"
-                //     : ""
-                // }`
-              }
-              >
-                <FiSearch size={18} />
-              </span>
-              <input
-                type="text"
-                // value={values.input}
-                // onChange={handleChange}
-                // onBlur={handleBlur}
-                name="input"
-                placeholder='Try "Search Services"'
-                className={`w-full h-full bg-transparent outline-none text-active `
-                // ${
-                //   errors.input && touched.input
-                //     ? " placeholder:text-red-500"
-                //     : ""
-                // }
-                }
-              />
-            </div>
-            <button
-              // onClick={handleSubmit}
-              type="submit"
-              className="bg-primary h-full lg:w-[150px] outline-none absolute top-16 lg:relative lg:top-0 rounded-md lg:rounded-[0] lg:rounded-tr-md lg:rounded-br-md w-full"
-            >
-              Search
-            </button>
-          </div>
+       
+  
           <div className="flex items-center gap-5 sm:flex-wrap sm:flex-col font-weight:600">
   <span>Relocated or stuck in the middle of nowhere without an idea of where to 
     find artisans to fix your urgent task?</span>
