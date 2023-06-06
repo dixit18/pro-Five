@@ -12,7 +12,7 @@ const Review = ({ item }) => {
     queryKey: [item.userId],
     queryFn: () =>
       Axios.get(`${requests.users}/${item.userId}`).then((res) => {
-        return res.data;
+        return res.data.user;
       }),
   });
 
@@ -21,15 +21,15 @@ const Review = ({ item }) => {
       <div className="flex items-start justify-start gap-4">
         <div className="w-10 h-10 border bg-gray-300 rounded-full flex items-center justify-center text-base text-gray-500 uppercase font-semibold">
           <img
-            src={data?.img || Avatar}
-            alt={data?.username}
+            src={data?.avatar || Avatar}
+            alt={data?.name}
             className="w-full h-full object-cover rounded-full"
           />
         </div>
         <div className="flex items-start justify-start flex-col gap-4">
           <div className="flex items-start justify-start gap-1 flex-col">
             <h2 className="text-darkColor font-bold lowercase">
-              {data?.username}
+              {data?.name}
             </h2>
             <div className="flex items-center justify-start gap-2">
               <span className="text-sm font-medium text-gray-500">
@@ -50,23 +50,7 @@ const Review = ({ item }) => {
           <p className="font-medium max-w-[660px] text-darkColor">
             {item.desc}
           </p>
-          <div className="flex items-center justify-start gap-2">
-            <p className="font-semibold text-sm text-gray-900">Helpful?</p>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center justify-start gap-2 cursor-pointer text-sm font-semibold">
-                <span className="text-gray-500">
-                  <BiLike />
-                </span>
-                <span>Yes</span>
-              </div>
-              <div className="flex items-center justify-start gap-2 cursor-pointer text-sm font-semibold">
-                <span className="text-gray-500">
-                  <BiDislike />
-                </span>
-                <span>No</span>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </div>
     </div>

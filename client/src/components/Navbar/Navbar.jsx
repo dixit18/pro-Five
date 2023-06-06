@@ -19,7 +19,7 @@ const Navbar = () => {
   const [openDrop, setOpenDrop] = useState(false);
   const [showLink, setShowLink] = useState(false);
   const { pathname } = useLocation();
-  const [loginModal, setLoginModal] = useState(false);
+ 
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -194,8 +194,8 @@ const Navbar = () => {
               <>
                 <div
                   onClick={() => {
-                    navigate("/");
-                    setLoginModal(true);
+                    navigate("/login");
+                    
                   }}
                   className="cursor-pointer hidden sm:flex"
                 >
