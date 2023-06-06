@@ -20,7 +20,7 @@ const CheckoutForm = () => {
     }
 
     const clientSecret = new URLSearchParams(window.location.search).get(
-      "pi_3N7DofSJMU3MPdrg1V7Xfs3D_secret_FbkIBWb6SWwtdroSbb9n6LKv2"
+      "payment_intent_client_secret"
     );
 
     console.log(clientSecret);

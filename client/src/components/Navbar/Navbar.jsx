@@ -1,25 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { TfiWorld } from "react-icons/tfi";
-import { BsCurrencyDollar } from "react-icons/bs";
+
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import Login from "../../pages/login/Login";
-import useAuthStore from "../../stores";
+import RegistrationForm from '../../pages/register/Register'
 import Avatar from "../../assets/icons/avatar.jpg";
 import { toast } from "react-toastify";
 import { Axios } from "../../config";
 import requests from "../../libs/request";
 import { FiChevronRight } from "react-icons/fi";
-import { FaBars } from "react-icons/fa";
-// import MobileSidebar from "./MobileSidebar/MobileSidebar";
 
 const Navbar = () => {
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   // const { authUser, removeAuthUser } = useAuthStore();
   const [active, setActive] = useState(false);
   const [openDrop, setOpenDrop] = useState(false);
   const [showLink, setShowLink] = useState(false);
   const { pathname } = useLocation();
- 
+
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -56,38 +53,11 @@ const Navbar = () => {
     }
   };
 
-  // const navigate = useNavigate();
-  // const [active, setActive] = useState(false);
-  // const [open, setOpen] = useState(false);
-
-  // const { pathname } = useLocation();
-
-  // const isActive = () => {
-  //   window.scrollY > 0 ? setActive(true) : setActive(false);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", isActive);
-  //   return () => {
-  //     window.removeEventListener("scroll", isActive);
-  //   };
-  // }, []);
-
   let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-  // const handleLogout = async () => {
-  //   console.log("hello there");
-
-  //   try {
-  //     await newRequest.get("/user/logout");
-  //     navigate("/");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
   const handleLogout = async () => {
     try {
-      await Axios.post(requests.logout);
+      await Axios.get(requests.logout);
       // removeAuthUser();
       localStorage.setItem("currentUser", null);
       toast.success("Logout Successfully", {
@@ -155,7 +125,7 @@ const Navbar = () => {
                       {currentUser?.user.isServiceProvider && (
                         <>
                           <NavLink
-                            to="/myGigs"
+                            to="/myservices"
                             className="cursor-pointer w-full text-sm text-darkColor"
                           >
                             Services
@@ -169,7 +139,7 @@ const Navbar = () => {
                         </>
                       )}
                       <NavLink
-                        to="/orders"
+                        to="/bookings"
                         className="cursor-pointer w-full text-sm text-darkColor"
                       >
                         Bookings
@@ -192,23 +162,17 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <div
-                  onClick={() => {
-                    navigate("/login");
-                    
-                  }}
-                  className="cursor-pointer hidden sm:flex"
-                >
+                <NavLink to="/login" className="cursor-pointer hidden sm:flex">
                   Sign in
-                </div>
-                <NavLink
-                  to="/signup"
-                  className={`border py-2 px-5 rounded hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 text-sm font-semibold ${
-                    active ? "text-primary border-primary" : ""
-                  }`}
-                >
-                  Register
                 </NavLink>
+                <button
+            className={`border py-2 px-5 rounded hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 text-sm font-semibold ${
+              active ? "text-primary border-primary" : ""
+            }`}
+            onClick={() => setShowModal(true)} // Open the modal on button click
+          >
+            Register
+          </button>
               </>
             )}
           </nav>
@@ -235,7 +199,14 @@ const Navbar = () => {
           </span>
         </div>
       </div>
-      <Login show={loginModal} setShow={setLoginModal} />
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black opacity-50" onClick={() => setShowModal(false)}></div>
+          <div className="relative z-10 bg-white p-8">
+            <RegistrationForm setShowModal={setShowModal} />
+          </div>
+        </div>
+      )}
     </header>
   );
 };

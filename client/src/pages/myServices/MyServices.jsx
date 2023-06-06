@@ -8,23 +8,23 @@ import loader from "../../assets/icons/loader.svg";
 import requests from "../../libs/request";
 import { Axios } from "../../config";
 
-const MyGigs = () => {
+const MyServices = () => {
   const { authUser } = useAuthStore();
   const queryClient = useQueryClient();
   const { isLoading, error, data, refetch } = useQuery({
-    queryKey: ["myGigs"],
+    queryKey: ["myServices"],
     queryFn: () =>
-      Axios.get(`${requests.gigs}?userId=${authUser._id}`).then(
+      Axios.get(`${requests.services}?userId=${authUser._id}`).then(
         (res) => res.data
       ),
   });
-
+console.log("req userid",data)
   const mutation = useMutation({
     mutationFn: (id) => {
-      return Axios.delete(`${requests.gigs}/${id}`);
+      return Axios.delete(`${requests.services}/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["myGigs"]);
+      queryClient.invalidateQueries(["myServices"]);
     },
   });
 
@@ -36,7 +36,6 @@ const MyGigs = () => {
     refetch();
   }, []);
 
-  console.log(data)
 
   const tableActions = data?.map((item) => ({
     image: (
@@ -77,7 +76,7 @@ const MyGigs = () => {
             <h2 className="text-2xl font-bold">Gigs</h2>
             <Link to="/add">
               <button className="bg-primary/80 py-3 px-2 text-white outline-none rounded-md text-sm hover:bg-primary w-fit transition-all duration-300">
-                Add New Gig
+                Add New Service
               </button>
             </Link>
           </div>
@@ -145,4 +144,4 @@ const MyGigs = () => {
   );
 };
 
-export default MyGigs;
+export default MyServices;

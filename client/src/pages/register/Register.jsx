@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import CustomizeInput from "../../utils/Input/CustomizeInput";
@@ -11,284 +12,186 @@ import { BsUpload } from "react-icons/bs";
 import { registerSchema } from "../../schemas";
 import upload from "../../libs/upload";
 
-const Register = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const initialValues = {
-    username: "",
+function Register({setShowModal}) {
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
+  const [user, setUser] = useState({
+    name: "",
     email: "",
     password: "",
-    phone: "",
-    img: null,
+    img: "",
     country: "",
     isServiceProvider: false,
-    desc: "",
-  };
-  const onSubmit = async (payload, actions) => {
-    setLoading(true);
-    const url = await upload(values.img);
-    try {
-      const res = await Axios.post(requests.register, {
-        ...payload,
-        img: url,
-      });
-      toast.success(res?.data, {
-        position: "bottom-right",
-        toastId: 1,
-        autoClose: 1500,
-      });
-      navigate("/");
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      if (error?.response?.data) {
-        toast.error(error?.response?.data, {
-          position: "bottom-right",
-          toastId: 1,
-          autoClose: 1500,
-        });
-      } else {
-        toast.error(error?.response?.message, {
-          position: "bottom-right",
-          toastId: 1,
-          autoClose: 1500,
-        });
-      }
-    }
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    actions.resetForm();
-  };
-
-  const {
-    handleChange,
-    values,
-    handleBlur,
-    handleSubmit,
-    errors,
-    touched,
-    setFieldValue,
-  } = useFormik({
-    initialValues,
-    validationSchema: registerSchema,
-    onSubmit,
+    address: "",
+    avatar: "",
+    phone: ""
   });
 
-  const getError = (key) => {
-    return touched[key] && errors[key];
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setUser((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
   };
 
-  function handleImageChange(event) {
-    const file = event.currentTarget.files[0];
-    if (file && !file.type.startsWith("image/")) {
-      toast.error("Please select an image file");
-      setFieldValue("img", null);
-      return;
+  const handleSeller = (e) => {
+    setUser((prev) => {
+      return { ...prev, isServiceProvider: e.target.checked };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const url = await upload(file);
+
+    try {
+      await Axios.post(`${requests.register}`, {
+        ...user,
+        avatar: url,
+      });
+     setShowModal(false)
+      navigate("/login");
+    } catch (err) {
+      
+      console.log(err);
+      setError(err.response.data.message);
     }
-    setFieldValue("img", file);
-  }
+  };
 
   return (
-    <div className="py-24 lg:py-40 pb-10">
-      <div className="contain">
-        <div className="w-full lg:w-[75%] flex items-center flex-col sm:flex-row justify-center py-10 mx-auto">
-          <form
-            onSubmit={handleSubmit}
-            className="flex items-start flex-col sm:flex-row justify-start gap-8 w-full"
-          >
-            <div className="flex items-start justify-start flex-col gap-4 w-full sm:flex-1">
-              <h1 className="text-2xl text-darkColor font-semibold">
-                Create an Account
-              </h1>
-              <CustomizeInput
-                showLabel={false}
-                htmlFor="username"
-                label="Username"
-                labelClassName="text-sm font-medium text-darkColor"
-                type="text"
-                name="username"
-                value={values.username}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={getError("username")}
-                id="username"
-                placeholder="Johndoe"
-                className="bg-white  border border-[#C7CBD1] w-full h-[40px] rounded px-4 focus:border-[1.5px] focus:border-primary outline-none text-sm"
-              />
-              <CustomizeInput
-                showLabel={false}
-                htmlFor="email"
-                label="Email Address"
-                labelClassName="text-sm font-medium text-darkColor"
-                type="text"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={getError("email")}
-                id="email"
-                placeholder="Email Address"
-                className="bg-white  border border-[#C7CBD1] w-full h-[40px] rounded px-4 focus:border-[1.5px] focus:border-primary outline-none text-sm"
-              />
-              <CustomizeInput
-                showLabel={false}
-                htmlFor="password"
-                label="Password"
-                labelClassName="text-sm font-medium text-darkColor"
-                type="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={getError("password")}
-                id="password"
-                placeholder="********"
-                className="bg-white  border border-[#C7CBD1] w-full h-[40px] rounded px-4 focus:border-[1.5px] focus:border-primary outline-none text-sm"
-              />
-              <div className="w-full">
-                <CustomizeInput
-                  showLabel={false}
-                  htmlFor="img"
-                  label="Profile Picture"
-                  labelClassName="text-sm font-medium text-darkColor"
-                  type="file"
-                  name="img"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  id="img"
-                  className="hidden"
-                />
-                <div
-                  className={`flex justify-center items-center flex-col gap-3 w-full border h-[136px] rounded-md text-sm text-gray-600 ${
-                    touched.img && errors.img
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  }`}
-                >
-                  {values?.img?.type?.startsWith("image/") ? (
-                    <label
-                      htmlFor="img"
-                      className="cursor-pointer h-full w-full flex items-center justify-center"
-                    >
-                      <img
-                        src={URL.createObjectURL(values.img)}
-                        alt={values.img.name}
-                        className="w-[120px] h-[120px] rounded-full object-cover"
-                      />
-                    </label>
-                  ) : (
-                    <>
-                      <p>Upload Cover Image</p>
-                      <BsUpload size={20} />
-                      <label
-                        htmlFor="img"
-                        className="w-fit border py-2 px-5 rounded-md cursor-pointer"
-                      >
-                        Browser
-                      </label>
-                    </>
-                  )}
-                </div>
-              </div>
-              <CustomizeInput
-                showLabel={false}
-                htmlFor="country"
-                label="country"
-                labelClassName="text-sm font-medium text-darkColor"
-                type="text"
-                name="country"
-                value={values.country}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={getError("country")}
-                id="country"
-                placeholder="e.g Nigeria"
-                className="bg-white  border border-[#C7CBD1] w-full h-[40px] rounded px-4 focus:border-[1.5px] focus:border-primary outline-none text-sm"
-              />
-              <button
-                type="submit"
-                className="w-full bg-primary/80 hover:bg-primary cursor-pointer outline-none text-white rounded py-3 transition-all duration-300 mt-4 hidden sm:block"
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center">
-                    <img src={loader} alt="/" className="w-[40px]" />
-                  </div>
-                ) : (
-                  <p className="flex items-center justify-center gap-2">
-                    Register
-                  </p>
-                )}
-              </button>
-            </div>
-            <div className="flex items-start justify-start flex-col gap-4 w-full sm:flex-1">
-              <h1 className="text-2xl text-darkColor font-semibold">
-                I want to be a seller
-              </h1>
-              <div className="w-full mt-8">
-                <label className="flex items-center justify-start w-full relative gap-4">
-                  <span className="text-[#5D6771] text-[15px] leading-5 font-medium flex items-center justify-center select-none">
-                    Activate the seller account
-                  </span>
-                  <span className="flex items-center justify-center select-none action">
-                    <input
-                      type="checkbox"
-                      className="appearance-none"
-                      value={values.isServiceProvider}
-                      onChange={handleChange}
-                      name="isServiceProvider"
-                    />
-                    <i className="bg-[#c5c7c9] relative w-11 h-6 rounded-xl transition-all duration-200 before:content-[''] before:absolute before:top-[2px] before:left-[2.8px] before:w-5 before:h-5 before:bg-white before:rounded-full before:shadow-newLongShadow before:transition-all before:duration-300 cursor-pointer"></i>
-                  </span>
-                </label>
-              </div>
-              <CustomizeInput
-                showLabel={false}
-                containerClass="my-2"
-                htmlFor="phone"
-                label="Phone Number"
-                labelClassName="text-sm font-medium text-darkColor"
-                type="text"
-                name="phone"
-                value={values.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                id="phone"
-                placeholder="phone"
-                className="bg-white  border border-[#C7CBD1] w-full h-[40px] rounded px-4 focus:border-[1.5px] focus:border-primary outline-none text-sm"
-              />
-              <CustomizeTextArea
-                rows={9}
-                showLabel={false}
-                htmlFor="desc"
-                label="Bio"
-                labelClassName="text-sm font-medium text-darkColor"
-                value={values.desc}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                id="desc"
-                name="desc"
-                placeholder="A short description of yourself"
-                className="bg-white border border-[#E6E6E6] w-full h-[107px] rounded p-4 focus:border-[1.5px] outline-none text-sm text-[#454B54] resize-none shadow-smallShadow"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-primary/80 hover:bg-primary cursor-pointer outline-none text-white rounded py-3 transition-all duration-300 mt-4 sm:hidden"
-            >
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <img src={loader} alt="/" className="w-[40px]" />
-                </div>
-              ) : (
-                <p className="flex items-center justify-center gap-2">
-                  Register
-                </p>
-              )}
-            </button>
-          </form>
-        </div>
+    
+
+
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-8 mt-6 text-indigo-600">
+    <div className="bg-white rounded-lg shadow-md p-8 w-3/5 max-w-lg">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">Create a new account</h1>
       </div>
+      <form onSubmit={handleSubmit} className="grid gap-6">
+        <div>
+          <label className="block mb-1" htmlFor="name">
+            Username
+          </label>
+          <input
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Dixit Parmar"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+            id="email"
+            name="email"
+            type="email"
+            placeholder="email"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1" htmlFor="password">
+            Password
+          </label>
+          <input
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+            id="password"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1" htmlFor="avatar">
+            Avatar
+          </label>
+          <input
+            className="w-full py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+            id="avatar"
+            name="avatar"
+            type="file"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+        </div>
+        <div>
+          <label className="block mb-1" htmlFor="pincode">
+            Pincode
+          </label>
+          <input
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+            id="pincode"
+            name="pincode"
+            type="text"
+            placeholder="12345"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label className="block mb-1" htmlFor="address">
+            Address
+          </label>
+          <textarea
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+            id="address"
+            name="address"
+            placeholder="Enter your address"
+            onChange={handleChange}
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label className="block mb-1" htmlFor="phone">
+            Phone Number
+          </label>
+          <input
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
+            id="phone"
+            name="phone"
+            type="text"
+            placeholder="+9265469498"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <div className="flex items-center">
+            <input
+              id="isServiceProvider"
+              className="mr-2"
+              type="checkbox"
+              onChange={handleSeller}
+            />
+            <label htmlFor="isServiceProvider">
+              Activate the seller account
+            </label>
+          </div>
+        </div>
+        <div className="col-span-2">
+          <button
+            className="bg-indigo-500 text-white px-6 py-2 rounded-md hover:bg-indigo-600 transition-colors"
+            type="submit"
+          >
+            Register
+          </button>
+        </div>
+        {error && <div className="text-red-500 col-span-2">{error}</div>}
+      </form>
     </div>
-  );
-};
+  
+  </div>
+);
+  
+}
 
 export default Register;

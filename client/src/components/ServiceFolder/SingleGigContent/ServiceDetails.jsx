@@ -18,7 +18,7 @@ const ServiceDetails = ({ data, id, userId }) => {
       }),
     enabled: !!userId,
   });
-  console.log("data from service Details",userData)
+  
   return (
     <div className="w-full flex items-start justify-start gap-3 flex-col">
       <div className="flex items-center justify-start gap-2 text-gray-500 text-sm font-medium">

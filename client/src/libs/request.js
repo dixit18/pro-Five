@@ -5,7 +5,7 @@ const   requests = {
   services: "/services",
   reviews: "/reviews",
   users: "/user",
-  orders: "/api/orders",
+  orders: "/bookings",
   conversations: "/api/conversation",
   messages: "/api/messages",
 };

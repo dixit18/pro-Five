@@ -38,11 +38,11 @@ const Add = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (gig) => {
-      return Axios.post(requests.gigs, gig);
+    mutationFn: (service) => {
+      return Axios.post(requests.services, service);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["myGigs"]);
+      queryClient.invalidateQueries(["myservices"]);
     },
     onError: (error) => {
       store.setRequestLoading(false);
@@ -75,7 +75,7 @@ const Add = () => {
     e.preventDefault();
     mutation.mutate(state);
     setTimeout(() => {
-      navigate("/myGigs");
+      navigate("/myservices");
       setLoading(false);
     }, 5000);
   };
@@ -83,7 +83,7 @@ const Add = () => {
     <main className="py-40 pb-20">
       <div className="contain">
         <div className="flex flex-col w-full gap-4 items-start justify-start">
-          <h2 className="text-2xl font-bold">Add New Gig</h2>
+          <h2 className="text-2xl font-bold">Add New Service</h2>
           <div className="flex items-start justify-between gap-4 w-full md:flex-row flex-col">
             <div className="w-full md:flex-1 flex items-start justify-start flex-col gap-2">
               <div className="flex flex-col w-full gap-1 items-start justify-start">

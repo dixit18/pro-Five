@@ -635,10 +635,10 @@ export const columns = [
   },
 ];
 export const ordersColumns = [
-  {
-    field: "image",
-    header: "Image",
-  },
+  // {
+  //   field: "image",
+  //   header: "Image",
+  // },
   {
     field: "title",
     header: "Title",
