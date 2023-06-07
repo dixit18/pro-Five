@@ -45,7 +45,7 @@ const Add = () => {
       queryClient.invalidateQueries(["myservices"]);
     },
     onError: (error) => {
-      store.setRequestLoading(false);
+      // store.setRequestLoading(false);
       console.log(error);
       toast.error("Something went wrong", {
         position: "top-right",
@@ -111,14 +111,14 @@ const Add = () => {
               </div>
               <div className="flex flex-col w-full gap-1 items-start justify-start">
                 <label
-                  htmlFor="cat"
+                  htmlFor="category"
                   className="text-sm font-medium text-darkColor/80"
                 >
                   Category
                 </label>
                 <select
-                  name="cat"
-                  id="cat"
+                  name="category"
+                  id="category"
                   onChange={handleChange}
                   // onBlur={handleBlur}
                   // value={values.cat}
@@ -455,3 +455,4 @@ const Add = () => {
 };
 
 export default Add;
+//samosa bol 2 min

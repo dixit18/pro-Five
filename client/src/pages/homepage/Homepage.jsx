@@ -25,58 +25,13 @@ const Homepage = () => {
     <main>
       <Hero />
       
-      {isLoading ? (
-        <div className="flex items-center justify-center w-full">
-          <img src={loader} alt="/" className="w-[40px]" />
-        </div>
-      ) : error ? (
-        <p className="text-xl md:text-2xl text-red-400 font-normal">
-          Error : Something went wrong
-        </p>
-      ) : (
-        <>
-          {data?.length === 0 ? (
-            <div className="flex items-center justify-center mt-5 flex-col w-full">
-              <img
-                src="https://cdni.iconscout.com/illustration/premium/thumb/error-404-4344461-3613889.png"
-                alt="/"
-                className="w-[350px]"
-              />
-              <h2 className="text-2xl md:text-4xl text-active font-medium text-center">
-                Oops!🤷‍♂️ No Result
-              </h2>
-            </div>
-          ) : (
-            <Slides
-              rowId="1"
-              distance={500}
-              text="Popular professional services"
-            >
-              {data.map((item) => (
-                <SingleCard key={item._id} item={item} />
-              ))}
-            </Slides>
-          )}
-        </>
-      )}
-      <Features />
+   
       <Marketplace />
+      <Features />
       <Business />
-      {/* <Slides rowId="2" distance={1200}>
-        {testimonyData.map((item, i) => (
-          <Testimony item={item} key={i} />
-        ))}
-      </Slides> */}
+ 
       <FAQ/>
-      {/* <Slides
-        rowId="3"
-        distance={500}
-        text="Get inspired with projects made by our freelancers"
-      >
-        {projectsCards.map((item, i) => (
-          <Projects item={item} key={i} />
-        ))}
-      </Slides> */}
+  
     </main>
   );
 };

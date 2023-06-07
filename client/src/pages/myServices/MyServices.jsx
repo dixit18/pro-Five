@@ -10,15 +10,16 @@ import { Axios } from "../../config";
 
 const MyServices = () => {
   const { authUser } = useAuthStore();
+  let currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const queryClient = useQueryClient();
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ["myServices"],
     queryFn: () =>
-      Axios.get(`${requests.services}?userId=${authUser._id}`).then(
-        (res) => res.data
+      Axios.get(`${requests.services}?userId=${currentUser.user._id}`).then(
+        (res) => res.data.services
       ),
   });
-console.log("req userid",data)
+
   const mutation = useMutation({
     mutationFn: (id) => {
       return Axios.delete(`${requests.services}/${id}`);

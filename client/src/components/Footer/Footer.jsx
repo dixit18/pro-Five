@@ -13,7 +13,6 @@ import { TfiWorld } from "react-icons/tfi";
 import { Link } from "react-router-dom";
 import { footerLinks } from "../../data/data";
 
-
 const Footer = () => {
   const date = new Date();
   const year = date.getFullYear();
@@ -41,20 +40,9 @@ const Footer = () => {
     },
   ];
   return (
-    <footer className="border-t w-full lg:py-14 lg:pb-5 pb-3">
+    <footer className="border-t w-full lg:pb-14 lg:pb-5 pb-3">
       <div className="contain">
         <div className="w-full flex flex-col items-start justify-start gap-10">
-          <div className="w-full hidden sm:grid sm:grid-cols-3 lg:grid-cols-5 gap-5 items-start justify-start">
-            {footerLinks.map((item, i) => (
-              <div
-                key={i}
-                className="flex items-start justify-start flex-col w-full gap-5"
-              >
-             
-              </div>
-            ))}
-          </div>
-          
           <div className="w-full flex items-center justify-between border-t pt-5 flex-col gap-2 sm:flex-row sm:gap-0">
             <div className="flex items-center justify-start gap-4 flex-col md:flex-row">
               <div className="flex items-end justify-end select-none">
@@ -83,13 +71,7 @@ const Footer = () => {
                 ))}
               </div>
               <div className="flex items-center gap-4 text-sm font-medium text-gray-400">
-                <div className="flex items-center gap-2 cursor-pointer">
-                 
-                </div>
-                
-              
-                 
-                
+                <div className="flex items-center gap-2 cursor-pointer"></div>
               </div>
             </div>
           </div>
