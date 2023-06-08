@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, Label, TextInput } from 'flowbite-react';
 import { useNavigate } from "react-router-dom";
 import requests from "../../libs/request";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -17,9 +18,12 @@ function Login() {
       const res = await Axios.post(`${requests.login}`, { email, password });
       console.log(res.user);
       localStorage.setItem("currentUser", JSON.stringify(res.data));
+      toast.success("kem cho")
       navigate("/");
     } catch (err) {
       console.log(err);
+
+      toast.error(err.response.data.message)
       setError(err.response.data.message);
     }
   };
@@ -57,7 +61,7 @@ function Login() {
           <Button type="submit" style={{ backgroundColor: "#4821e7cc" }}>
             Login
           </Button>
-          {error && console.log(error)}
+         
         </form>
       </div>
     </div>

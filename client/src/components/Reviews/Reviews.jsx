@@ -172,6 +172,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 // import newRequest from "../../utils/Request";
 import Review from "./Review/Review";
+import { toast } from "react-toastify";
 
 const Reviews = ({ serviceId }) => {
 
@@ -192,6 +193,7 @@ const Reviews = ({ serviceId }) => {
         return response.data;
       } catch (error) {
         console.log(error);
+        toast.error(error.response.data.message)
         throw new Error(error.message);
       }
     },

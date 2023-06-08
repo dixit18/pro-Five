@@ -81,10 +81,10 @@ const Add = () => {
   };
   return (
     <main className="py-40 pb-20">
-      <div className="contain">
-        <div className="flex flex-col w-full gap-4 items-start justify-start">
-          <h2 className="text-2xl font-bold">Add New Service</h2>
-          <div className="flex items-start justify-between gap-4 w-full md:flex-row flex-col">
+    <div className="contain">
+      <div className="flex flex-col w-full gap-4 items-start justify-start">
+        <h2 className="text-2xl font-bold">Add New Service</h2>
+        <div className="flex items-start justify-between gap-4 w-full md:flex-row flex-col">
             <div className="w-full md:flex-1 flex items-start justify-start flex-col gap-2">
               <div className="flex flex-col w-full gap-1 items-start justify-start">
                 <label
@@ -455,4 +455,3 @@ const Add = () => {
 };
 
 export default Add;
-//samosa bol 2 min
